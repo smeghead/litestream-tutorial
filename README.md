@@ -61,5 +61,29 @@ litestream restore -o fruits2.db s3://mybkt.localhost:9000/fruits.db
 
 backupのようなもの。s3のダウンロードと同じことなんだろうか？
 
+## minio files
 
+replicateされたファイルは、単一のsqlite3データベースファイルではなく、以下のようになっていた。
+
+```bash
+$ wget https://dl.min.io/client/mc/release/linux-amd64/mc
+$ chmod +x ./mc
+$ ./mc alias set minio http://localhost:9000 minioadmin minioadmin
+$ ./mc ls -r mybkt minio
+[2022-05-05 21:22:45 JST]   418B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/snapshots/00000000.snapshot.lz4
+[2022-05-05 21:22:45 JST]   483B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000000_00000000.wal.lz4
+[2022-05-05 21:23:46 JST]   119B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000001_00000000.wal.lz4
+[2022-05-05 21:24:53 JST]   127B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000001_00001038.wal.lz4
+[2022-05-05 21:24:53 JST]   119B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000002_00000000.wal.lz4
+[2022-05-05 21:29:23 JST]   145B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000002_00001038.wal.lz4
+[2022-05-05 21:29:23 JST]   119B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000003_00000000.wal.lz4
+[2022-05-05 21:32:34 JST]   157B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000003_00001038.wal.lz4
+[2022-05-05 21:32:34 JST]   115B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000004_00000000.wal.lz4
+[2022-05-05 21:35:46 JST]   168B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000004_00001038.wal.lz4
+[2022-05-05 21:35:46 JST]   119B STANDARD mybkt/fruits.db/generations/0f67fb6531a7c63b/wal/00000005_00000000.wal.lz4
+[2022-05-05 21:31:59 JST]   472B STANDARD mybkt/fruits.db/generations/2190b1717ec0b853/snapshots/00000000.snapshot.lz4
+[2022-05-05 21:31:59 JST]   119B STANDARD mybkt/fruits.db/generations/2190b1717ec0b853/wal/00000000_00000000.wal.lz4
+[2022-05-05 21:33:11 JST]   157B STANDARD mybkt/fruits.db/generations/2190b1717ec0b853/wal/00000000_00001038.wal.lz4
+[2022-05-05 21:33:11 JST]   119B STANDARD mybkt/fruits.db/generations/2190b1717ec0b853/wal/00000001_00000000.wal.lz4
+```
 
